@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Language" contect="zh-CN" />
+    <title>正式报名 - 润梦 RUNMUN 中学生模拟联合国大会</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="renderer" content="webkit" />
+    <meta http-equiv="Cache-Control" content="no-siteapp" />
+    <meta name="Robots" contect= "all" />
+    <meta name="baiduspider" content="all" />
+    <meta name="KEYWords" contect="润梦,runmun,RUNMUN,模联,模拟联合国,上师大附中,上海师范大学附属中学,正式报名" />
+    <meta name="DEscription" contect="润梦 RUNMUN 中学生模拟联合国大会" />
+    <meta name="Author" contect="2018 润梦 RUNMUN 中学生模拟联合国大会组委 多媒体团队 - KUAI" />
+    <meta name="copyright" content="CopyRight © 2018 润梦 RUNMUN 中学生模拟联合国大会组委 多媒体团队 All Rights reserved" />
+    <script src="https://runmun-1251935573.cos.ap-chengdu.myqcloud.com/rreg/js/jquery.min.js"></script>
+    <script src="https://runmun-1251935573.cos.ap-chengdu.myqcloud.com/rreg/js/bootstrap.min.js"></script>
+    <script src="https://runmun-1251935573.cos.ap-chengdu.myqcloud.com/rreg/js/popper.min.js"></script>
+    <script src="https://runmun-1251935573.cos.ap-chengdu.myqcloud.com/rreg/js/bootstrap-material-design.js"></script>
+    <script src="https://runmun-1251935573.cos.ap-chengdu.myqcloud.com/rreg/js/framaterial.min.js"></script>
+    <script src="https://runmun-1251935573.cos.ap-chengdu.myqcloud.com/rreg/js/cos-js-sdk-v5.min.js"></script>
+    <!--<script src="https://runmun-1251935573.cos.ap-chengdu.myqcloud.com/rreg/js/rregv2.js?v=1"></script>-->
+    <link href="https://runmun-1251935573.cos.ap-chengdu.myqcloud.com/rreg/css/framaterial.min.css" rel="stylesheet" />
+    <link href="https://runmun-1251935573.cos.ap-chengdu.myqcloud.com/rreg/css/bootstrap-material-design.css" rel="stylesheet">
+    <link href="https://runmun-1251935573.cos.ap-chengdu.myqcloud.com/rreg/css/docs.min.css" rel="stylesheet">
+    <style>
+*{user-select: none;-webkit-user-select: none;}
+.c-align-center{text-align: center;}
+.container{transition: all 0.5s ease 0s !important;padding: 2%;}
+ul{pointer-events: none;}
+.bottom-a{bottom:0;}
+th , td{vertical-align: middle !important;}
+input, textarea {-khtml-user-select: text!important;-moz-user-select: text!important;-ms-user-select: text!important;-o-user-select: text!important;user-select: text!important;-webkit-user-select: text!important;}
+    </style>
+    <script>
+        var load_btn,bg,AModalText,reg,SchoolList,RegList,now = "a";
+$(document).ready(function(){
+    load_btn = document.getElementById("load_btn");
+    bg = document.getElementById("bg");
+    AModalText=document.getElementById("AlertModal-text");
+    reg = {
+        a:document.getElementById("reg-a"),
+        b:document.getElementById("reg-b"),
+        c:document.getElementById("reg-c"),
+        d:document.getElementById("reg-d"),
+        e:document.getElementById("reg-e"),
+        f:document.getElementById("reg-f"),
+        g:document.getElementById("reg-g")
+    };
+    setInterval(function(){
+        reg[now].offsetHeight <= bg.offsetHeight ? ($("#reg-"+now).addClass("bottom-a")) : ($("#reg-"+now).removeClass("bottom-a"));
+    },15);
+    $('body').bootstrapMaterialDesign();
+    // if(!window.localStorage){
+    //     AlertM("您的浏览器不支持数据的浏览器保存，推荐更换浏览器进行报名！");
+    // }else{
+    //     if(window.localStorage.RUNMUN_RREG_DATA!==undefined && window.localStorage.RUNMUN_RREG_DATA!==""){
+    //         AlertM("检测到您有未上传的报名数据，可以使用左下角的快速报名按钮进行数据上传");
+    //         document.getElementById("reg-a-fast").style.display="";
+    //         retArr=JSON.parse(localStorage.RUNMUN_RREG_DATA);
+    //     }
+    // }
+});
+window.onload=function(){
+    document.getElementById("load_btn").style.display="none";
+};
+var Room=['1/UNDP/联合国开发计划署（单双混代）','2/UNHRC/联合国人权理事会（双代表）','3/GA/联合国大会（双代表）','4/UNSC/联合国安全理事会（双代表）','5/G20/G20峰会（英文场）（双代表）','6/ECOSOC/联合国经济及社会理事会（英文场）'];
+var nationSelect =[],nation;
+var AlertM = (text)=>{
+    AModalText.innerHTML=text;
+    $("#AlertModal").modal("show");
+};
+var check = {
+    notPhone:(e)=>{
+        return !(/^[1-9]\d{10,10}$/.test(e));
+    },
+    notQQ:(e)=>{
+        return !(/^[1-9]\d{4,10}$/.test(e));
+    },
+    notIdentity:(e)=>{
+        let regIdCard=/^[1-9]\d{5}[1-2]\d{3}((0[1-9])|(1[0-2]))(0[1-9]|([1|2]\d)|3[0-1])((\d{4})|\d{3}X)$/;
+        if(regIdCard.test(e)){
+            //18位身份证，X大写
+            let idCardWi = new Array(7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2);
+            let idCardY = new Array(1, 0, 'X', 9, 8, 7, 6, 5, 4, 3, 2);
+            let idCardWiSum = 0;
+            for (let i = 0; i < 17; i++) {idCardWiSum += e.substring(i, i + 1) * idCardWi[i];}
+            let idCardMod = idCardWiSum % 11;
+            if (e.substring(17) == idCardY[idCardMod]) {return false;} else {return true;}
+        }else{return true}
+    }
+};
+var load = {
+    show: ()=>{
+        let height = bg.offsetHeight;
+        let width = bg.offsetWidth;
+        load_btn.style.heigh=height+"px";
+        load_btn.style.width=width+"px";
+        load_btn.style.display="block";
+    },
+    none: ()=>{
+        load_btn.style.display="none";
+    },
+    up: (e,n)=>{
+        reg[e].style.opacity=0;
+        reg[e].style.left=0-reg[e].offsetWidth+"px";
+        reg[e].style.right="auto";
+        now=n;
+        setTimeout(function(){reg[e].style.display="none";reg[n].style.opacity=1;reg[n].style.display="table";load.none();},500);
+    },
+    back:(e,n)=>{
+        reg[e].style.opacity=0;
+        now=n;
+        setTimeout(function(){reg[e].style.display="none";reg[n].style.opacity=1;reg[n].style.display="table";reg[n].style.left=0;reg[n].style.right=0;},500);
+    }
+};
+var regAct = {
+    a: ()=>{
+        if(document.getElementById("ck_1").checked){
+            load.show();
+            $.get("/get/school", function(result){
+                SchoolList=result.ret;
+                var content='';
+                result.ret.forEach(function(e){
+                    content+='<span class="bmd-form-group is-filled"><div class="radio"><label><input type="radio" name="reg-b-school-check" id="reg-b-school-check" value="'+e.school+'"><span class="bmd-radio"></span>'+e.school+'</label></div></span>';
+                });
+                document.getElementById("SchoolList").innerHTML=content;
+                load.up("a","b");
+            });
+        }else{
+            AlertM("请确认须知");
+        }
+    },
+    searchSchool: ()=>{
+        var key=document.getElementById("SchoolName").value;
+        var content='';
+        SchoolList.forEach(function(e){
+            e.school.indexOf(key)!=-1 && (content+='<span class="bmd-form-group is-filled"><div class="radio"><label><input type="radio" name="reg-b-school-check" value="'+e.school+'"><span class="bmd-radio"></span>'+e.school+'</label></div></span>');
+        });
+        document.getElementById("SchoolList").innerHTML=content;
+    },
+    b: ()=>{
+        let schoolChecked = $("input[name='reg-b-school-check']:checked").val();
+        if(schoolChecked!==undefined){
+            load.show();
+            $.post('/get/schoolInfo',{'s':schoolChecked},function(result){
+                if(result.ret.reg==0){
+                    RegList=result.ret;
+                    retArr.school=schoolChecked;
+                    load.up("b","c");
+                }else{
+                    AlertM("该学校已报名，请勿重复报名");
+                    load.none();
+                }
+            });
+        }else{
+            AlertM("请于单选框选择学校");
+        }
+    },
+    c: ()=>{
+        let leader = document.getElementById("leader").value;
+        let phone = document.getElementById("phone").value;
+        let qq = document.getElementById("qq").value;
+        if(leader===""){
+            AlertM("请填写领队姓名");
+        }else if(check.notPhone(phone)){
+            AlertM("领队手机号格式不正确");
+        }else if(check.notQQ(qq)){
+            AlertM("领队QQ格式不正确");
+        }else{
+            load.show();
+            retArr.leader=leader;
+            retArr.leader_phone=phone;
+            retArr.leader_qq=qq;
+            $.get("https://runmun-1251935573.cos.ap-chengdu.myqcloud.com/rreg/json/nationV2.json", function(result){
+                result.forEach(function(e,index){
+                    let content="";
+                    e.forEach(function(n){
+                        content+='<option value="'+n+'">'+n+'</option>';
+                    });
+                    nationSelect[index]=content;
+                });
+                let stuId=1;
+                let content="";
+                for (var i=1;i<=6;i++){
+                    if(RegList["num"+i]!=0){
+                        RegList["num"+i].split("+").forEach(function(value){
+                            content+='<tr><th scope="row">'+stuId+'</th><td><div class="form-group bmd-form-group"><label class="bmd-label-floating">姓名</label><input type="text" class="form-control" id="stu-'+stuId+'-name"></div></td><td><span class="bmd-form-group is-filled"><div class="radio"><label><input type="radio" name="stu-'+stuId+'-sex" id="reg-b-school-check" value="男" checked><span class="bmd-radio"></span>男</label></div></span><span class="bmd-form-group is-filled"><div class="radio"><label><input type="radio" name="stu-'+stuId+'-sex" id="reg-b-school-check" value="女"><span class="bmd-radio"></span>女</label></div></span></td><td><select class="custom-select  custom-select-sm" style="width:70px;" name="stu-'+stuId+'-grade"><option value="高二" selected>高二</option><option value="高一">高一</option><option value="初中">初中</option></select></td><td><select class="custom-select  custom-select-sm" style="width:150px;" id="stu-'+stuId+'-room" onchange="regAct.checkRoom(this);"><option value="1">1/UNDP/联合国开发计划署（单双混代）</option><option value="2">2/UNHRC/联合国人权理事会（双代表）</option><option value="3">3/GA/联合国大会（双代表）</option><option value="4">4/UNSC/联合国安全理事会（双代表）</option><option value="5">5/G20/G20峰会（英文场）（双代表）</option><option value="6">6/ECOSOC/联合国经济及社会理事会（英文场）</option></select></td><td><select class="custom-select  custom-select-sm" style="width:150px;" id="stu-'+stuId+'-nation">'+nationSelect[i-1]+'</select></td><td><div class="form-group bmd-form-group"><label class="bmd-label-floating">联系电话</label><input type="text" class="form-control" id="stu-'+stuId+'-phone"></div></td><td><div class="form-group bmd-form-group"><label class="bmd-label-floating">身份证号</label><input type="text" class="form-control" id="stu-'+stuId+'-identity"></div></td><td><span class="bmd-form-group is-filled"><div class="checkbox"><label><input type="checkbox" id="stu-'+stuId+'-Fri"><span class="checkbox-decorator"><span class="check"></span><div class="ripple-container"></div></span>是</label></div></span></td><td><span class="bmd-form-group is-filled"><div class="checkbox"><label><input type="checkbox" id="stu-'+stuId+'-Sat"><span class="checkbox-decorator"><span class="check"></span><div class="ripple-container"></div></span>是</label></div></span></td><td><span class="bmd-form-group is-filled"><div class="checkbox"><label><input type="checkbox" id="stu-'+stuId+'-double" checked onclick="regAct.checkDouble(this)"><span class="checkbox-decorator"><span class="check"></span><div class="ripple-container"></div></span>是</label></div></span></td><td><div class="form-group bmd-form-group"><label class="bmd-label-floating">双代学校</label><input type="text" class="form-control" id="stu-'+stuId+'-doubleSchool" disabled></div></td><td><div class="form-group bmd-form-group"><label class="bmd-label-floating">双代姓名</label><input type="text" class="form-control" id="stu-'+stuId+'-doubleName" disabled></div></td></tr>';
+                            stuId++;
+                        });
+                    }
+                }
+                retArr.num=stuId-1;
+                document.getElementById("StuList").innerHTML='<div id="stuListI"><table class="table table-hover table-bordered"><thead><tr><th scope="col">#</th><th scope="col">姓名</th><th scope="col">性别</th><th scope="col">年级</th><th scope="col">会场</th><th scope="col">席位</th><th scope="col">手机号</th><th scope="col">身份证</th><th scope="col" style="width: 50px;">周五住宿</th><th scope="col" style="width: 50px;">周六住宿</th><th scope="col" style="width: 50px;">随机双代</th><th scope="col">双代学校</th><th scope="col">双代姓名</th></tr></thead><tbody id="stuListB">'+content+'</tbody></table><h5>备注</h5><div class="form-group"><textarea class="form-control" id="reg-e-back" rows="3"></textarea></div></div>';
+                $('#stuListI').bootstrapMaterialDesign();
+                stuId=1;
+                for (var i=1;i<=6;i++){
+                    if(RegList["num"+i]!=0){
+                        RegList["num"+i].split("+").forEach(function(value){
+                            let r=document.getElementById("stu-"+stuId+"-room");
+                            r.value=i;
+                            regAct.checkRoom(r);
+                            document.getElementById("stu-"+stuId+"-nation").value=value;
+                            stuId++;
+                        });
+                    }
+                }
+                load.up("c","d");
+            });
+        }
+    },
+    checkDouble:(e)=>{
+        let next =$(e).parents("td").next()[0];
+        next.children[0].children[1].disabled=e.checked;
+        next.nextSibling.children[0].children[1].disabled=e.checked;
+    },
+    checkRoom:(e)=>{
+        let p=$(e).parents("tr").children();
+        let d;
+        p[5].children[0].children[0].innerHTML=nationSelect[e.value-1];
+        (e.value==3) ? (d="") : (d="none");
+        p[10].children[0].style.display=d;
+        p[11].children[0].style.display=d;
+        p[12].children[0].style.display=d;
+    },
+    plus:()=>{
+        retArr.num++;
+        let stuId= retArr.num;
+        let e = document.createElement("tr"); 
+        let content='<tr><th scope="row">'+stuId+'</th><td><div class="form-group bmd-form-group"><label class="bmd-label-floating">姓名</label><input type="text" class="form-control" id="stu-'+stuId+'-name"></div></td><td><span class="bmd-form-group is-filled"><div class="radio"><label><input type="radio" name="stu-'+stuId+'-sex" id="reg-b-school-check" value="男" checked><span class="bmd-radio"></span>男</label></div></span><span class="bmd-form-group is-filled"><div class="radio"><label><input type="radio" name="stu-'+stuId+'-sex" id="reg-b-school-check" value="女"><span class="bmd-radio"></span>女</label></div></span></td><td><select class="custom-select  custom-select-sm" style="width:70px;" name="stu-'+stuId+'-grade"><option value="高二" selected>高二</option><option value="高一">高一</option><option value="初中">初中</option></select></td><td><select class="custom-select  custom-select-sm" style="width:150px;" id="stu-'+stuId+'-room" onchange="regAct.checkRoom(this);"><option value="1" selected>1/UNDP/联合国开发计划署（单双混代）</option><option value="2">2/UNHRC/联合国人权理事会（双代表）</option><option value="3">3/GA/联合国大会</option><option value="4">4/UNSC/联合国安全理事会（双代表）</option><option value="5">5/G20/G20峰会（英文场）（双代表）</option><option value="6">6/ECOSOC/联合国经济及社会理事会（英文场）</option></select></td><td><select class="custom-select  custom-select-sm" style="width:150px;" id="stu-'+stuId+'-nation">'+nationSelect[0]+'</select></td><td><div class="form-group bmd-form-group"><label class="bmd-label-floating">联系电话</label><input type="text" class="form-control" id="stu-'+stuId+'-phone"></div></td><td><div class="form-group bmd-form-group"><label class="bmd-label-floating">身份证号</label><input type="text" class="form-control" id="stu-'+stuId+'-identity"></div></td><td><span class="bmd-form-group is-filled"><div class="checkbox"><label><input type="checkbox" id="stu-'+stuId+'-Fri"><span class="checkbox-decorator"><span class="check"></span><div class="ripple-container"></div></span>是</label></div></span></td><td><span class="bmd-form-group is-filled"><div class="checkbox"><label><input type="checkbox" id="stu-'+stuId+'-Sat"><span class="checkbox-decorator"><span class="check"></span><div class="ripple-container"></div></span>是</label></div></span></td><td><span class="bmd-form-group is-filled"><div class="checkbox"><label><input type="checkbox" id="stu-'+stuId+'-double" checked onclick="regAct.checkDouble(this)"><span class="checkbox-decorator"><span class="check"></span><div class="ripple-container"></div></span>是</label></div></span></td><td><div class="form-group bmd-form-group"><label class="bmd-label-floating">双代学校</label><input type="text" class="form-control" id="stu-'+stuId+'-doubleSchool" disabled></div></td><td><div class="form-group bmd-form-group"><label class="bmd-label-floating">双代姓名</label><input type="text" class="form-control" id="stu-'+stuId+'-doubleName" disabled></div></td></tr>'
+        e.innerHTML=content;
+        let a = document.getElementById("stuListB").appendChild(e);
+        $(a).bootstrapMaterialDesign();
+        regAct.checkRoom(document.getElementById("stu-"+stuId+"-room"));
+    },
+    minus:()=>{
+        retArr.num--;
+        document.getElementById("stuListB").lastChild.remove();
+    },
+    save:()=>{
+        
+    },
+    saveW:()=>{
+        AlertM("这是什么？<br/>此功能可以将现在所填写的数据保存到浏览器本地存储中<br/>存储的数据会在下次进行到这一步时自动被填入<br/>注意：如果您清除了浏览器的缓存或是更换了浏览器，数据不会被填入<br/>注意：请不要在公用电脑上使用此项，以免您的个人信息遭到泄露");
+    },
+    plusW:()=>{
+        AlertM("这是什么？<br/>此功能可以增加或删减代表人数<br/>注意：增加人数前，请与秘书长沟通席位分配相关事宜<br/>注意：观察员不在此列，请单独与秘书长沟通联系");
+    },
+    d: ()=>{
+        load.show();
+        var name,phone,identity,Arr=[];
+        for (var i=1;i<=retArr.num;i++){
+            name=document.getElementById("stu-"+i+"-name").value;
+            phone=document.getElementById("stu-"+i+"-phone").value;
+            identity=document.getElementById("stu-"+i+"-identity").value.toUpperCase();
+            if(name==""){
+                AlertM("代表"+i+"姓名不能为空");load.none();return;
+            }else if(check.notPhone(phone)){
+                AlertM("代表"+i+"手机号格式不正确");load.none();return;
+            }else if(check.notIdentity(identity) && identity.substring(0,1)!="*"){
+                AlertM("代表"+i+"身份证格式不正确");load.none();return;
+            }else{
+                Arr[i-1]={
+                    name:name,
+                    sex:$("input[name='stu-"+i+"-sex']:checked").val(),
+                    grade:$("select[name='stu-"+i+"-grade']").val(),
+                    room:Room[document.getElementById("stu-"+i+"-room").value-1],
+                    nation:document.getElementById("stu-"+i+"-nation").value,
+                    phone:phone,
+                    identity:identity,
+                    fri:document.getElementById("stu-"+i+"-Fri").checked,
+                    sat:document.getElementById("stu-"+i+"-Sat").checked
+                }
+                if($(document.getElementById("stu-"+i+"-double")).parents("span")[0].style.display!="none"){
+                    Arr[i-1].randDouble=document.getElementById("stu-"+i+"-double").checked;
+                    if(!document.getElementById("stu-"+i+"-double").checked){
+                        Arr[i-1].doubleSchool=document.getElementById("stu-"+i+"-doubleSchool").value;
+                        Arr[i-1].doubleName=document.getElementById("stu-"+i+"-doubleName").value;
+                    }
+                }
+            }
+        }
+        retArr.stu=Arr;
+        retArr.back=document.getElementById("reg-e-back").value;
+        var content="";
+        content+='<div id="agreeI"><ul class="list-group"><li class="list-group-item">学校：'+retArr.school+'</li><li class="list-group-item">领队：'+retArr.leader+'</li><li class="list-group-item">领队手机号：'+retArr.leader_phone+'</li><li class="list-group-item">领队QQ：'+retArr.leader_qq+'</li></ul><table class="table table-hover table-bordered"><thead><tr><th scope="col">#</th><th scope="col">姓名</th><th scope="col">性别</th><th scope="col">年级</th><th scope="col">会场</th><th scope="col">席位</th><th scope="col">手机号</th><th scope="col">身份证</th><th scope="col">周五住宿</th><th scope="col">周六住宿</th><th scope="col">随机双代</th><th scope="col">双代学校</th><th scope="col">双代姓名</th></tr></thead><tbody>';
+        for(var i=1;i<=retArr.num;i++){
+            content+='<tr><th scope="row">'+i+'</th><td>'+Arr[i-1].name+'</td><td>'+Arr[i-1].sex+'</td><td>'+Arr[i-1].grade+'</td><td>'+Arr[i-1].room+'</td><td>'+Arr[i-1].nation+'</td><td>'+Arr[i-1].phone+'</td><td>'+Arr[i-1].identity+'</td><td>'+(Arr[i-1].fri?"是":"否")+'</td><td>'+(Arr[i-1].sat?"是":"否")+'</td>';
+            Arr[i-1].name==retArr.leader && (retArr.leader_pay=0);
+            if(Arr[i-1].randDouble == undefined){
+                content+="<td>/</td><td>/</td><td>/</td></tr>";
+            }else{
+                content+='<td>'+(Arr[i-1].randDouble?"是":"否")+'</td><td>'+(Arr[i-1].doubleSchool || "/")+'</td><td>'+(Arr[i-1].doubleName || "/")+'</td></tr>';
+            }
+        }
+        content+='</tbody></table></div><h4>备注</h4><p>'+retArr.back+'</p><h4>应付款项（仅会费）：'+retArr.num+'人 × ￥330 + '+retArr.leader_pay+'人 × ￥200 = ￥'+(retArr.num*330+retArr.leader_pay*200)+'</h4>';
+        document.getElementById("agree").innerHTML=content;
+        $('#agreeI').bootstrapMaterialDesign();
+        load.up("d","e");
+    },
+    e:()=>{
+        load.show();
+        document.getElementById("reg-f-pay").innerHTML='<div class="col"><img src="https://runmun-1251935573.cos.ap-chengdu.myqcloud.com/rreg/alipay.jpg" style="width: 250px;" id="pay-img"></div><div class="col" style="text-align:center"><h3>支付宝</h3><h3>扫描二维码付款</h3><h4>￥'+(retArr.num*330+retArr.leader_pay*200)+'</h4><h4>支付备注：'+retArr.school+'-'+retArr.num+'-'+retArr.num*330+'</h4><h4>截图请包含：金额、订单号</h4><input type="file" accept="image/*" value="选择付款截图" id="file"><button type="button" class="btn btn-raised btn-info btn-sm" onclick="regAct.upload();" id="confirm-up">确认上传</button><h5>上传图片可能耗时较长，若超过一分钟无提示框，请退回上一步重新提交（无需再次支付，重新上传图片即可）</h5></div>';
+        retArr.pic=null;
+        load.up("e","f");
+    },
+    upload:()=>{
+        document.getElementById("confirm-up").disabled=true;
+        upload.putObject(document.getElementById("file").files[0],retArr.school+".png");
+    },
+    f:()=>{
+        if(retArr.pic==null){
+            AlertM("请上传支付截图！");
+        }else{
+            localStorage.RUNMUN_RREG_DATA=JSON.stringify(retArr);
+            AlertM("正在提交数据，若超过一分钟未跳转至成功界面，请再次尝试上传数据<br/>您的报名数据已保存在本地，若多次上传数据均出错，请刷新页面尝试");
+            $.post('/get/reg',{'dat':retArr},function(result){
+                if(result.status!=500){
+                    AlertM("错误："+result.status+"<br/>"+result.ret);
+                }else{
+                    let content='<div id="thanksI"><table class="table table-hover table-bordered"><thead><tr><th scope="col">#</th><th scope="col">学校</th><th scope="col">姓名</th><th scope="col">性别</th><th scope="col">年级</th><th scope="col">会场</th><th scope="col">席位</th><th scope="col">手机号</th><th scope="col">身份证</th></thead><tbody>';
+                    result.ret.forEach(function(e,index){
+                        content+='<tr><th scope="row">'+(index+1)+'</th><td>'+e.school+'</td><td>'+e.name+'</td><td>'+e.sex+'</td><td>'+e.grade+'</td><td>'+e.room+'</td><td>'+e.nation+'</td><td>'+e.phone+'</td><td>'+e.identity+'</td>';
+                    });
+                    content+="</tbody></table></div>";
+                    document.getElementById("thanks").innerHTML=content;
+                    $('#thanksI').bootstrapMaterialDesign();
+                    if(now=="a"){
+                        load.up("a","g");
+                    }else{
+                        load.up("f","g");
+                    }
+                }
+                localStorage.RUNMUN_RREG_DATA="";
+            });
+        }
+    }
+};
+var retArr = {
+    school:null,
+    leader:null,
+    leader_phone:null,
+    leader_qq:null,
+    leader_pay:1,
+    num:null,
+    stu:null,
+    pic:null,
+    back:null
+};
+// upload
+var cos = new COS({
+    getAuthorization: function (options,callback) {
+        var url = './upload/sts.php';
+        var xhr = new XMLHttpRequest();
+        xhr.open('GET', url, true);
+        xhr.onload = function (e) {
+            if(e.target.responseText=="null"){
+                AlertM("获取数据错误，请重新上传");
+                document.getElementById("confirm-up").disabled=false;
+            }
+            var data = JSON.parse(e.target.responseText);
+            callback({
+                TmpSecretId: data.credentials && data.credentials.tmpSecretId,
+                TmpSecretKey: data.credentials && data.credentials.tmpSecretKey,
+                XCosSecurityToken: data.credentials && data.credentials.sessionToken,
+                ExpiredTime: data.expiredTime
+            });
+        };
+        xhr.send();
+    }
+});
+var upload={
+    Bucket:'alipay-1251935573',
+    Region:'ap-chengdu',
+    putObject:(data,file)=>{
+        cos.putObject({
+            Bucket: upload.Bucket,
+            Region: upload.Region,
+            Key: file,
+            Body: data,
+            onProgress: function (progressData) {
+                console.log(JSON.stringify(progressData));
+            },
+        }, function (err, data) {
+            upload.getObject(file);
+        });
+    },
+    getObject:(filename)=>{
+        let xhr = new XMLHttpRequest();
+        xhr.open('GET', 'https://alipay-1251935573.cos.ap-chengdu.myqcloud.com/'+filename, true);
+        xhr.responseType = "blob";
+        xhr.onload = function () {
+        if (this.status === 200) {
+                var blob = this.response;
+                s=URL.createObjectURL(blob);
+                document.getElementById("pay-img").src=s;
+                AlertM("文件传输成功<br/>请确认左图为您的支付截图后点击提交数据<br/>提交数据可能花费时间较长，请耐心等待<br/>若左图不是您的支付截图，请回退至上一步重新提交");
+                retArr.pic=retArr.school+".png";
+                document.getElementById("confirm-up").disabled=false;
+            }else{
+                AlertM("文件传输出错，错误代码："+this.status+'  '+this.statusText);
+                document.getElementById("confirm-up").disabled=false;
+            }
+        };
+        xhr.send();
+    }
+}
+    </script>
+    </head>
+    <body style="margin:0;padding:0">
+        <div style="position:absolute;z-index:-999;width:100%;height:100%;" id="bg"></div>
+        <div class="m-card-lightblue" id="load_btn" style="position: fixed;width: 100%;height: 100%;z-index: 999;padding: 0;margin: 0;top: 0;background: rgba(255,255,255,.8);">
+            <div class="m-spinner-blue center-force"></div>
+        </div>
+        <!---->
+        <div class="modal fade" id="AlertModal" tabindex="-1" role="dialog" aria-labelledby="AlertModal" aria-hidden="true">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="AlertModal-title">提示</h5>
+              </div>
+              <div class="modal-body" id="AlertModal-text"></div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-info" data-dismiss="modal">确认</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!---->
+        <div id="reg-a" class="container material-container" style="width:70%;margin:auto;position:absolute;left:0;top:0;right:0;display:table;">
+            <div class="card" style="display:table-cell;vertical-align: middle;padding: 30px;">
+                <h4 class="c-align-center">润梦 RUNMUN 2019 中学生模拟联合国大会</h4>
+                <h3 class="c-align-center">正式报名</h3>
+                <hr/>
+                <h4 class="c-align-center">须知确认（1/7）</h4>
+                <hr>
+                <div class="alert alert-info" role="alert">
+                    <h4 class="alert-heading">在正式报名前你需要知晓《报名须知》</h4>
+                    <hr>
+                    <ul>
+                      <li>在本次报名开放前填写的《预报名表》和《会场意向表》生效，本表开放后（截至2019/10/1 18:00）数据不再进行同步（特殊情况除外）</li>
+                      <li>填写本表即代表正式报名润梦2019模拟联合国大会，请认真填写本表</li>
+                      <li>本表截止报名后，不会重新开放，请各位代表注意在本表截止日期前完成填写（特殊情况除外）</li>
+                      <li>在最后 <b>确认报名页面</b> 单击 <b>确认报名按钮</b> 后，会显示报名成功，再此之前仍然可以对先前的报名数据进行修改</li>
+                      <li>一旦报名及付费成功，为保护代表个人信息，该学校将被锁定，不再开放修改（特殊情况除外）</li>
+                      <li>请使用较高版本和兼容性较好的浏览器（如Google Chrome等）进行报名，不支持IE浏览器（360等浏览器请使用极速模式）</li>
+                      <li>请使用宽度大于720px的浏览器进行报名，推荐使用电脑端浏览器进行报名</li>
+                      <li>使用不合适的浏览器打开本页面可能造成的后果可能有<ul>
+                          <li>页面显示不全</li>
+                          <li>报名信息提交失败</li>
+                          <li>无法输入信息</li>
+                          <li>支付失败</li>
+                          <li>无法上传支付截图</li>
+                          <li>等</li>
+                      </ul></li>
+                      <li>本表内付款仅限 <b>代表</b> 的 <b>会费</b> ，观察员的会费及所有住宿费用不在此项，请勿同时付款</li>
+                      <li style="color:red"><b>正式报名成功后不接受任何形式的退款要求，付款前请务必确认好各项信息的准确有效</b></li>
+                      <li>请各位代表付款后妥善保留好支付截图作为支付凭证</li>
+                      <li>请在填表前确认可支付款项充足，请勿分为多次进行付费，付费后请截图并在本表内上传方为有效支付，如有特殊情况，请联系秘书长</li>
+                      <li>润梦2019模拟联合国大会《住宿信息表格》未被包含在本表内，需要填写该表的领队请至官网首页下载该表</li>
+                      <li>由于本《须知》中所提到的条目落空，而造成的报名失败或填写错误等问题，润梦2019组委会不对此负责</li>
+                      <li>如有特殊情况请与秘书长协商和沟通</li>
+                      <li>本《须知》可能进行更新或修改，组委会不会对此进行通知</li>
+                    </ul>
+                </div>
+                <hr/>
+                <input type="checkbox" class="m-input-checkbox-lightblue" id="reg-a-check"  data-label="我已阅读并同意以上须知">
+                <button type="button" class="btn btn-raised btn-info float-left btn-lg" id="reg-a-dl" onclick="downloadXlsx()">下载报名表单</button>
+                <button type="button" class="btn btn-raised btn-info float-left btn-lg" style="display:none;" id="reg-a-fast" onclick="regAct.f()">快速报名</button>
+                <button type="button" class="btn btn-raised btn-info float-right btn-lg" id="reg-a-next" onclick="regAct.a()">下一步</button>
+                
+            </div>
+        </div>
+        <!---->
+        <div id="reg-b" class="container material-container" style="width:450px;margin:auto;position:absolute;left:0;top:0;right:0;display:none;opacity: 0;">
+            <div class="card" style="display:table-cell;vertical-align: middle;padding: 30px;">
+                <h4 class="c-align-center">润梦 RUNMUN 2019 中学生模拟联合国大会</h4>
+                <h3 class="c-align-center">正式报名</h3>
+                <hr>
+                <h4 class="c-align-center">学校选择（2/7）</h4>
+                <hr>
+                <form>
+                    <div class="form-group bmd-form-group">
+                        <label for="SchoolName" class="bmd-label-floating">输入您的学校名称进行筛选</label>
+                        <input type="text" class="form-control" id="SchoolName" oninput="regAct.searchSchool()">
+                    </div>
+                    <h6>请在以下列表进行选择</h6>
+                    <div id="SchoolList"></div>
+                </form>
+                <hr>
+                <button type="button" class="btn btn-raised btn-info float-left btn-lg" id="reg-b-next" onclick="load.back('b','a');">上一步</button>
+                <button type="button" class="btn btn-raised btn-info float-right btn-lg" id="reg-b-next" onclick="regAct.b();">下一步</button>
+            </div>
+        </div>
+        <!---->
+        <div id="reg-c" class="container material-container" style="width:450px;margin:auto;position:absolute;left:0;top:0;right:0;display:none;opacity: 0;">
+            <div class="card" style="display:table-cell;vertical-align: middle;padding: 30px;">
+                <h4 class="c-align-center">润梦 RUNMUN 2019 中学生模拟联合国大会</h4>
+                <h3 class="c-align-center">正式报名</h3>
+                <hr>
+                <h4 class="c-align-center">上传报名表（3/7）</h4>
+                <hr>
+                <input type="file" accept="image/*" value="选择付款截图" id="file"><button type="button" class="btn btn-raised btn-info btn-sm" onclick="regAct.upload();" id="confirm-up">确认上传</button>
+                <hr>
+                <button type="button" class="btn btn-raised btn-info float-left btn-lg" id="reg-c-next" onclick="load.back('c','b');">上一步</button>
+                <button type="button" class="btn btn-raised btn-info float-right btn-lg" id="reg-c-next" onclick="regAct.c();">下一步</button>
+            </div>
+        </div>
+        <!---->
+        <div id="reg-d" class="container material-container" style="width:70%;min-width:1560px;margin:auto;position:absolute;left:0;top:0;right:0;display:none;opacity: 0;">
+            <div class="card" style="display:table-cell;vertical-align: middle;padding: 30px;">
+                <h4 class="c-align-center">润梦 RUNMUN 2019 中学生模拟联合国大会</h4>
+                <h3 class="c-align-center">正式报名</h3>
+                <hr>
+                <h4 class="c-align-center">代表信息（4/7）</h4>
+                <hr>
+                <h5>请根据所分配的席位进行填写（AB为双代席位），双代席位为本校代表优先，请各位代表以最终席位为准</h5>
+                <h5>双代选项为GA场使用，本校双代若超过两位，且需要在本校内匹配的，请填写本校双代姓名（两位均需填写对方信息）</h5>
+                <h5>若跨校双代，双方均需填写对方信息，否则将有组委随机分配双代席位</h5>
+                <h5>非大陆18位身份证无法通过验证的代表，请在证件号前加*号，如：*888888，并在备注中进行注明</h5>
+                <div id="StuList"></div>
+                <hr>
+                <div>
+                    <button type="button" class="btn btn-raised btn-info float-left btn-lg" id="reg-d-next" onclick="load.back('d','c');">上一步</button>
+                    <div class="float-right">
+                        <button type="button" class="btn btn-raised btn-info btn-lg" id="reg-d-plus" onclick="regAct.minus();">-代表</button>
+                        <button type="button" class="btn btn-raised btn-info btn-lg" id="reg-d-plus" onclick="regAct.plus();">+代表</button>
+                        <button type="button" class="btn btn-info bmd-btn-fab bmd-btn-fab-sm" onclick="regAct.plusW();">!</button>
+                        <button type="button" class="btn btn-raised btn-info btn-lg" id="reg-e-next" onclick="regAct.d();">下一步</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!---->
+        <div id="reg-e" class="container material-container" style="width:70%;margin:auto;position:absolute;left:0;top:0;right:0;display:none;opacity: 0;">
+            <div class="card" style="display:table-cell;vertical-align: middle;padding: 30px;">
+                <h4 class="c-align-center">润梦 RUNMUN 2019 中学生模拟联合国大会</h4>
+                <h3 class="c-align-center">正式报名</h3>
+                <hr>
+                <h4 class="c-align-center">最终确认（5/7）</h4>
+                <hr>
+                <div id="agree"></div>
+                <hr>
+                <button type="button" class="btn btn-raised btn-info float-left btn-lg" id="reg-e-next" onclick="load.back('e','d');">上一步</button>
+                <div class="float-right">
+                    <button type="button" class="btn btn-raised btn-info btn-lg" id="reg-e-print" onclick="window.print();">打印当前页面</button>
+                    <button type="button" class="btn btn-raised btn-info btn-lg" id="reg-e-next" onclick="regAct.e();">下一步</button>
+                </div>
+            </div>
+        </div>
+        <!---->
+        <div id="reg-f" class="container material-container" style="width:700px;margin:auto;position:absolute;left:0;top:0;right:0;display:none;opacity: 0;">
+            <div class="card" style="display:table-cell;vertical-align: middle;padding: 30px;">
+                <h4 class="c-align-center">润梦 RUNMUN 2019 中学生模拟联合国大会</h4>
+                <h3 class="c-align-center">正式报名</h3>
+                <hr>
+                <h4 class="c-align-center">付款（6/7）</h4>
+                <hr>
+                <div id="pay" class="container">
+                    <div class="row"  id="reg-f-pay"></div>
+                </div>
+                <hr>
+                <button type="button" class="btn btn-raised btn-info float-left btn-lg" id="reg-f-next" onclick="load.back('f','e');">上一步</button>
+                <div class="float-right">
+                    <button type="button" class="btn btn-raised btn-info btn-lg" id="reg-f-print" onclick="window.print();">打印当前页面</button>
+                    <button type="button" class="btn btn-raised btn-info btn-lg" id="reg-f-next" onclick="regAct.f();">提交数据</button>
+                </div>
+            </div>
+        </div>
+        <!---->
+        <div id="reg-g" class="container material-container" style="width:70%;margin:auto;position:absolute;left:0;top:0;right:0;display:none;opacity: 0;">
+            <div class="card" style="display:table-cell;vertical-align: middle;padding: 30px;">
+                <h4 class="c-align-center">润梦 RUNMUN 2019 中学生模拟联合国大会</h4>
+                <h3 class="c-align-center">正式报名</h3>
+                <hr>
+                <h4 class="c-align-center">报名成功（7/7）</h4>
+                <hr>
+                <div id="thanks"></div>
+                <hr>
+                <h4>感谢您对润梦的支持和信任！润梦，梦在润园，润园润梦，顺颂曼福。</h4>
+                <button type="button" class="btn btn-raised btn-info btn-lg float-right" id="reg-g-next" onclick="parent.location.href='/?spm=rreg';">返回首页</button>
+            </div>
+        </div>
+        <!---->
+    </body>
+</html>
